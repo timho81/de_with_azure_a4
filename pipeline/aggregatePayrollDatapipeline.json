@@ -1,0 +1,53 @@
+{
+	"name": "aggregatePayrollDatapipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "payrollAggregateDataflow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "nyc_payroll_aggregate_dataflow",
+						"type": "DataFlowReference",
+						"parameters": {
+							"dataflow_param_fiscalyear": {
+								"value": "@pipeline().parameters.pipeline_param_fiscalyear",
+								"type": "Expression"
+							}
+						}
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "AzureBlobStorage_LinkedService",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "adlsnycpayroll-dzung-lastintial/dirstaging"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"pipeline_param_fiscalyear": {
+				"type": "int",
+				"defaultValue": 2020
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-08T08:46:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

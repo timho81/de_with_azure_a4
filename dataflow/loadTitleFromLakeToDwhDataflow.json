@@ -1,0 +1,52 @@
+{
+	"name": "loadTitleFromLakeToDwhDataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Title_Master_Raw_Dataset",
+						"type": "DatasetReference"
+					},
+					"name": "rawtitledatasource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "NYC_Payroll_TITLE_MD_DWH_Dataset",
+						"type": "DatasetReference"
+					},
+					"name": "synapsetitledwhsink"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> rawtitledatasource",
+				"rawtitledatasource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> synapsetitledwhsink"
+			]
+		}
+	}
+}

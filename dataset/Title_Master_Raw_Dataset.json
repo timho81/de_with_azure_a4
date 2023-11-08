@@ -1,0 +1,34 @@
+{
+	"name": "Title_Master_Raw_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "TitleMaster.csv",
+				"folderPath": "dirpayrollfiles",
+				"container": "adlsnycpayroll-dzung-lastintial"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "TitleCode",
+				"type": "String"
+			},
+			{
+				"name": "TitleDescription",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
